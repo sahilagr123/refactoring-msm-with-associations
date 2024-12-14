@@ -15,5 +15,11 @@ class Actor < ApplicationRecord
 
   has_many(:characters, foreign_key: "actor_id", class_name: "Character")
 
-  has_many(:filmography, foreign_key: "", class_name: "Movie")
+  #has_many(:filmography, foreign_key: "", class_name: "Movie")
+
+  def filmography
+    movie_ids = self.characters.pluck(:movie_id)
+    movies = Movie.where({ :id => movie_ids })
+    return movies
+  end
 end
